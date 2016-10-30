@@ -1,0 +1,117 @@
+1.DOM
+	- Document Object Model（文档对象模型）
+	- DOM是W3C定义的一个标准，由各个厂商去实现。
+	- DOM对于我们来说，就是可以通过JS来操作网页，DOM就是让我们可以以纯面向对象的方式来操作网页。
+	- Document（文档）
+		- 指的是整个HTML页面，也就是网页
+	- Object（对象）
+		- 对象指根据DOM标准将页面中各个部分都转换为了对象，
+			当我们想操作页面中的部分时，只需要获取到指定对象即可完成操作。
+	- Model（模型）
+		- 模型用来表示页面中对象之间的关系，父子、祖先后代、兄弟。。。
+			有了一个明确的关系可以方便我们的在页面中查询对象
+	- Node(节点)
+		- 我们的一个网页是由多个节点构成，网页中的每一个部分我们都可以称为是一个节点。
+		- 节点还要区分具体的类型：
+			Document（文档节点）
+				- 代表的是整个网页对象
+			Element（元素节点）
+				- 代表的是网页中各种标签
+			Text（文本节点）
+				- 代表网页中的文字内容
+			Attribute（属性节点）
+				- 代表标签中的属性
+				
+	- DOM的查询
+		- 在浏览器中已经给我们提供一个document对象，代表整个的文档。
+		- document对象是window对象的属性，可以在页面中直接使用。
+		- 通过document对象查询：
+			- 通过id获取一个元素节点对象：
+				document.getElementById("id属性值");
+			- 通过标签名获取一组元素节点对象：
+				document.getElementsByTagName("标签名");
+			- 通过name属性来获取一组元素节点对象：
+				document.getElementsByName("name属性值");
+			- 获取body元素
+				document.body;
+			- 获取页面中所有的元素节点
+				document.all;
+				
+		- 通过具体的元素节点查询：
+			元素节点.getElementsByTagName("标签名");
+				- 获取某个元素的节点指定后代元素
+			元素节点.childNodes;
+				- 获取当前元素的所有子节点（包括文本节点）
+			元素节点.children;
+				- 获取当前元素的所有子元素（不包括文本节点）
+			元素节点.firstChild;
+				- 获取当前元素的第一个子节点
+				- 经常使用它获取元素的文本节点
+					- 例子：获取h1标签中的文本内容
+						<h1>文字</h1>
+						h1.firstChild.nodeValue
+			元素节点.lastChild
+				- 获取当前元素的最后一个子节点
+			元素节点.parentNode
+				- 获取当前元素的父元素
+			元素节点.previousSibling
+				- 获取当前元素的前一个兄弟节点
+			元素节点.nextSibling
+				- 获取当前元素的后一个兄弟节点
+		
+		- 读取一个元素的属性
+			语法：元素.属性名
+			注意：
+				特殊情况：class属性
+					元素.className
+			
+		- 设置一个元素的属性
+			语法: 元素.属性名 = 属性值
+			
+		- innerHTML和innerText
+			- 这个两个都可以用来读取或设置标签内部的HTML代码
+			- 不同的是innerHTML在读取时会带着HTML标签，
+				而innerText在读取时，会自动去除HTML标签。
+				
+	- 事件：
+		- 用户和浏览器之间发生的交互行为我们称为事件，
+			比如：加载了一张图片，点击了一个按钮，改变浏览器窗口的大小。。。。
+		- 在浏览器中为我们提供很多的定义好的事件，可以在文档中查询。
+		- 我们需要为指定的事件绑定处理函数来对事件进行响应。
+		- 绑定方式一：
+			<button onclick="alert('hello');">点我一下</button>
+			
+		- 绑定方式二：
+			<button id="btn">点我一下</button>
+			<script>
+				var btn = document.getElementById("btn");
+				btn.onclick = function(){
+					alert("hello");
+				};
+			</script>
+			
+		- window.onload
+			- 浏览器在加载一个页面时，是按照从上到下的顺序加载的，
+				如果JS代码写在网页的上边，则会在JS执行时，DOM对象还没加载完全，
+					这样会导致获取不到DOM对象的情况出现，所以为了解决这个问题，我们有两种方式：
+				- 第一种：
+					将JS代码写在body的下边，但是这种方式不太习惯，我们习惯将这些外部的内容写在上边
+				- 第二种：
+					将JS代码写在window.onload = function(){}中这样可以确保我们的代码在页面加载完成以后才执行，
+						这种方式，既符合习惯，又可以获取到DOM对象。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

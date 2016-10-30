@@ -1,0 +1,111 @@
+1.DOM对样式的操作
+	- 操作元素的内联样式：
+		- 语法：元素.style.样式名 = 样式值
+		- 读取样式：元素.style.样式名
+	- 注意：
+		以上的操作样式的方式都是操作的内联样式，
+			由于内联样式的优先级比较高，所以设置以后的样式往往会优先显示出来。
+		读取样式时同样也是读取的内联样式，而样式表中的样式是不能通过这种方式读取的。
+		
+	- 读取元素的样式（包括样式表中的样式）	
+		- IE8和以下的浏览器
+			元素.currentStyle.样式名
+		- 正常的浏览器
+			getComputedStyle(元素,null).样式名
+		- 这两种方式获取到样式的对象都是只读的，不能通过他们修改样式
+
+	- 其他的样式的读取：
+		元素.clientWidth
+		元素.clientHeight
+			- 获取元素的可见框的大小（包括内容区和内边距，不包括边框）
+			
+		元素.offsetWidth
+		元素.offsetHeight
+			- 获取元素的可见框的大小，和上边不同的是他们包括边框
+			
+		offsetParent
+			- 获取当前元素的定位元素
+			
+		offsetTop
+			- 获取当前元素相对于其定位元素的垂直偏移量
+			
+		offsetLeft
+			- 获取当前元素相对于其定位元素的水平偏移量
+			
+		scrollHeight
+		scrollWidth
+			- 获取当前元素整个滚动范围的宽度和高度
+			
+		scrollTop
+		scrollLeft
+			- 滚动条垂直和水平方向滚动的距离
+			
+		注意：以上几个属性返回的值都是Number类型，不带px，可以直接计算
+
+		判断滚动条是否滚动到底：
+			垂直方向：scrollHeight - scrollTop == clientHeight;
+			水平方向: scrollWidth - scrollLeft == clientWidth;
+			
+		onscroll --> 元素滚动条滚动的实际
+
+2.事件
+	- 在JS中的事件是基于观察者模式		
+	- 事件有这么几个要素：
+		事件源(被监听的对象):元素
+		事件：监听哪些内容：click事件 scroll事件 mouseover事件 。。。。
+		监听器：监听事件源，当事件触发时，调用回调函数
+		回调函数：事件发生时需要做的事情
+		
+	- 为元素设置一个监听器：
+		第一种方式：
+			元素.事件属性 = 回调函数;
+			 -这种方式只能为一个元素的一个事件绑定一个处理函数，不能绑定多个，一旦绑定多个则后边的会把前边的覆盖。
+			 
+		第二种方式：
+			元素.addEventListener("事件名",回调函数,false);
+				addEventListener()需要三个参数：
+					1.事件的名字的字符串，注意不带on。click mouseenter 。。。
+					2.事件的处理函数，当事件发生时函数会执行
+					3.是否在捕获阶段执行事件，都传false
+			
+			IE8的方式：
+				元素.attachEvent("事件名",回调函数);
+					attachEvent需要两个参数：
+						1.事件的名字的字符串，注意需要on。onclick onmouseenter...
+						2.事件的回调函数
+			
+			- 注意：addEventListener()绑定的回调函数中的this就是当前的元素。
+					而attachEvent()绑定的回调函数中的this永远都是window。
+					
+	- 事件对象：
+		- 在事件的响应函数被触发时，浏览器每次都会传递进一个事件对象（Event）
+			在这个事件对象中封装了当前事件相关的一切信息，鼠标的坐标、键盘的那个按键被按下。。。
+		
+		- 但是注意在IE8以下的浏览器中，它不会传递事件对象，而是将事件对象作为window对象的属性保存，
+			所以为了处理兼容性的问题，需要编写这样的代码
+		
+		- 例子：
+			元素.onclick = function(event){
+				event = event || window.event;
+			};
+			
+	- 冒泡：
+		- 冒泡简单来说就是事件的向上传导。
+		- 后代元素上的事件被触发也会导致祖先元素上的相同事件被触发。
+		- 开发中很多情况我们可以去利用冒泡，但是有些情况我们不希望事件冒泡。
+			这是我们可以设置事件对象cancelBubble = true;
+		- 例子：
+			元素.onclick = function(event){
+				event = event || window.event;
+				
+				event.cancelBubble = true;
+			};	
+			
+			
+			
+			
+			
+			
+			
+			
+			
